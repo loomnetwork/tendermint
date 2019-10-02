@@ -14,6 +14,12 @@
 
 - [mempool] [\#3](https://github.com/mattkanwisher/tendermint/pull/3) Evict txs from the mempool if they haven't been committed after `N` blocks
 
+## Backported from v0.31.9
+
+### BUG FIXES:
+
+- [p2p] Fix for panic in signature verification if a peer sends a nil public key.
+
 ## Backported from v0.30.1
 
 ### BUG FIXES:
