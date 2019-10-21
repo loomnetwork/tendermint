@@ -142,6 +142,10 @@ func makeJSONRPCHandler(funcMap map[string]*RPCFunc, cdc *amino.Codec, logger lo
 				return
 			}
 		}
+		if len(args) != len(rpcFunc.args) {
+			WriteRPCResponseHTTP(w, types.RPCInvalidParamsError(request.ID, errors.New("Invalid number of params")))
+			return
+		}
 		returns := rpcFunc.f.Call(args)
 		logger.Info("HTTPJSONRPC", "method", request.Method, "args", args, "returns", returns)
 		result, err := unreflectResult(returns)
