@@ -653,7 +653,7 @@ func (wsc *wsConnection) readRoutine() {
 				continue
 			}
 			if len(args) == 0 && len(rpcFunc.args) > 0 {
-				wsc.WriteRPCResponse(types.RPCInternalError(request.ID, errors.New("Invalid number of params")))
+				wsc.WriteRPCResponse(types.RPCInvalidParamsError(request.ID, errors.New("Invalid number of params")))
 				continue
 			}
 			returns := rpcFunc.f.Call(args)
