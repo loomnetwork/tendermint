@@ -652,6 +652,10 @@ func (wsc *wsConnection) readRoutine() {
 				wsc.WriteRPCResponse(types.RPCInternalError(request.ID, errors.Wrap(err, "Error converting json params to arguments")))
 				continue
 			}
+			if len(args) != len(rpcFunc.args) {
+				WriteRPCResponseHTTP(w, types.RPCInvalidParamsError(request.ID, errors.New("Invalid number of params")))
+				return
+			}
 			returns := rpcFunc.f.Call(args)
 
 			// TODO: Need to encode args/returns to string if we want to log them
