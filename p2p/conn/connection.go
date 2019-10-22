@@ -811,9 +811,9 @@ func (ch *Channel) recvPacketMsg(packet PacketMsg) ([]byte, error) {
 
 		// clear the slice without re-allocating.
 		// http://stackoverflow.com/questions/16971741/how-do-you-clear-a-slice-in-go
-		//   suggests this could be a memory leak, but we might as well keep the memory for the channel until it closes,
-		//	at which point the recving slice stops being used and should be garbage collected
-		ch.recving = ch.recving[:0] // make([]byte, 0, ch.desc.RecvBufferCapacity)
+		// suggests this could be a memory leak, but we might as well keep the memory for the channel until it closes,
+		// at which point the recving slice stops being used and should be garbage collected
+		ch.recving = make([]byte, 0, ch.desc.RecvBufferCapacity) // ch.recving[:0] < this one might be the cause of memory leakage
 		return msgBytes, nil
 	}
 	return nil, nil
